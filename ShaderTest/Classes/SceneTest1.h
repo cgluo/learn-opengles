@@ -15,6 +15,13 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(SceneTest1);
+
+	virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags) override;
+
+	void onDraw();
+
+private:
+	cocos2d::CustomCommand _command;
 };
 
 #endif // __SceneTest1_SCENE_H__
