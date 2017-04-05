@@ -58,19 +58,40 @@ void SceneTest3::visit(cocos2d::Renderer *renderer, const Mat4 &transform, uint3
 
 void SceneTest3::onDraw()
 {
+	//我们通过调用pushMatrix把当前矩阵压栈，这个操作会把原来栈顶上的元素拷贝一份并压入栈，这样我们后续对于此矩阵的操作可以通过调用popMatrix来撤销影响。
+	Director::getInstance()->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+	Director::getInstance()->loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+	Director::getInstance()->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+	Director::getInstance()->loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+
 	//获得当前SceneTest3的shader
-	auto glProgram = getGLProgram();
+	auto glProgram = GLProgram::createWithFilenames("myVertextShader.vert", "myFragmentShader.frag");
 	//使用此shader
 	glProgram->use();
 	//设置该shader的一些内置uniform,主要是MVP，即model-view-project矩阵
 	glProgram->setUniformsForBuiltins();
 
+	//set color to uniform
+	GLuint uColorLocation = glGetUniformLocation(glProgram->getProgram(), "u_color");
+	float uColor[] = { 1.0, 0.0, 0.0, 1.0 };
+	glUniform4fv(uColorLocation, 1, uColor);
+
 	auto size = Director::getInstance()->getWinSize();
 	//指定将要绘制的三角形的三个顶点，分别位到屏幕左下角，右下角和正中间的顶端
-	float vertercies[] = { 0,0,   //第一个点的坐标
-		size.width, 0,   //第二个点的坐标
-		size.width / 2, size.height };  //第三个点的坐标
-										//指定每一个顶点的颜色，颜色值是RGBA格式的，取值范围是0-1
+	//float vertercies[] = { 
+	//	0,0,   //第一个点的坐标
+	//	size.width, 0,   //第二个点的坐标
+	//	size.width / 2, size.height //第三个点的坐标
+	//};  
+
+	//normalized device space空间的取值范围是-1~+1
+	float vertercies[] = {
+		-1,-1,   //第一个点的坐标
+		1, -1,   //第二个点的坐标
+		0, 1 //第三个点的坐标
+	};  
+	
+	//指定每一个顶点的颜色，颜色值是RGBA格式的，取值范围是0-1
 	float color[] = { 0, 1,0, 1,    //第一个点的颜色，绿色
 		1,0,0, 1,  //第二个点的颜色, 红色
 		0, 0, 1, 1 };  //第三个点的颜色， 蓝色
@@ -85,4 +106,8 @@ void SceneTest3::onDraw()
 	CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 3);
 	//如果出错了，可以使用这个函数来获取出错信息
 	CHECK_GL_ERROR_DEBUG();
+
+	//对于此矩阵的操作可以通过调用popMatrix来撤销影响。
+	Director::getInstance()->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+	Director::getInstance()->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
