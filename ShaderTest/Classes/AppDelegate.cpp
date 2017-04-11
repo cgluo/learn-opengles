@@ -4,6 +4,7 @@
 #include "SceneTest2.h"
 #include "SceneTest3.h"
 #include "SceneTest4.h"
+#include "SceneTest5.h"
 
 USING_NS_CC;
 
@@ -82,7 +83,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//auto scene = SceneTest1::createScene();
 	//auto scene = SceneTest2::createScene();
 	//auto scene = SceneTest3::createScene();
-	auto scene = SceneTest4::createScene();
+	//auto scene = SceneTest4::createScene();
+	auto scene = SceneTest5::createScene();
 
     // run
     director->runWithScene(scene);
