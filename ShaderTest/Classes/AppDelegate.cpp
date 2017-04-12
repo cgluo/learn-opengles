@@ -1,10 +1,10 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
-#include "SceneTest1.h"
-#include "SceneTest2.h"
-#include "SceneTest3.h"
-#include "SceneTest4.h"
-#include "SceneTest5.h"
+#include "SceneLesson1.h"
+#include "SceneLesson2.h"
+#include "SceneLesson3.h"
+#include "SceneLesson4.h"
+#include "SceneLesson5.h"
 
 USING_NS_CC;
 
@@ -80,11 +80,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
-	//auto scene = SceneTest1::createScene();
-	//auto scene = SceneTest2::createScene();
-	//auto scene = SceneTest3::createScene();
-	//auto scene = SceneTest4::createScene();
-	auto scene = SceneTest5::createScene();
+	//auto scene = SceneLesson1::createScene();
+	//auto scene = SceneLesson2::createScene();
+	//auto scene = SceneLesson3::createScene();
+	//auto scene = SceneLesson4::createScene();
+	auto scene = SceneLesson5::createScene();
 
     // run
     director->runWithScene(scene);

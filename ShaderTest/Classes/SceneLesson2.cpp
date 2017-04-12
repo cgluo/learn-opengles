@@ -1,15 +1,15 @@
-#include "SceneTest2.h"
+#include "SceneLesson2.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
-Scene* SceneTest2::createScene()
+Scene* SceneLesson2::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = SceneTest2::create();
+    auto layer = SceneLesson2::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -19,7 +19,7 @@ Scene* SceneTest2::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool SceneTest2::init()
+bool SceneLesson2::init()
 {
 	this->setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_COLOR));
 
@@ -71,7 +71,7 @@ bool SceneTest2::init()
 }
 
 
-void SceneTest2::menuCloseCallback(Ref* pSender)
+void SceneLesson2::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
@@ -88,15 +88,15 @@ void SceneTest2::menuCloseCallback(Ref* pSender)
     
 }
 
-void SceneTest2::visit(cocos2d::Renderer *renderer, const Mat4 &transform, uint32_t parentFlags)
+void SceneLesson2::visit(cocos2d::Renderer *renderer, const Mat4 &transform, uint32_t parentFlags)
 {
 	Layer::visit(renderer, transform, parentFlags);
 	_command.init(_globalZOrder);
-	_command.func = CC_CALLBACK_0(SceneTest2::onDraw, this);
+	_command.func = CC_CALLBACK_0(SceneLesson2::onDraw, this);
 	Director::getInstance()->getRenderer()->addCommand(&_command);
 }
 
-void SceneTest2::onDraw()
+void SceneLesson2::onDraw()
 {
 	//create my own program
 	auto program = getGLProgram();

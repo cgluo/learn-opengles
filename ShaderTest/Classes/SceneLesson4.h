@@ -1,9 +1,9 @@
-#ifndef __SceneTest2_SCENE_H__
-#define __SceneTest2_SCENE_H__
+#ifndef __SceneLesson4_SCENE_H__
+#define __SceneLesson4_SCENE_H__
 
 #include "cocos2d.h"
 
-class SceneTest2 : public cocos2d::Layer
+class SceneLesson4 : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
@@ -14,7 +14,7 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
-    CREATE_FUNC(SceneTest2);
+    CREATE_FUNC(SceneLesson4);
 
 	virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags) override;
 
@@ -22,8 +22,6 @@ public:
 
 private:
 	cocos2d::CustomCommand _command;
-
-	uint32_t _vao;
 };
 
-#endif // __SceneTest2_SCENE_H__
+#endif // __SceneLesson4_SCENE_H__
