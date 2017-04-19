@@ -21,7 +21,7 @@ Scene* SceneLesson6::createScene()
 // on "init" you need to initialize your instance
 bool SceneLesson6::init()
 {
-	this->setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_COLOR));
+	this->setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE));
 	if (!Layer::init())
 	{
 		return false;
@@ -58,7 +58,6 @@ void SceneLesson6::visit(cocos2d::Renderer *renderer, const Mat4 &transform, uin
 
 void SceneLesson6::onDraw()
 {
-	//我们通过调用pushMatrix把当前矩阵压栈，这个操作会把原来栈顶上的元素拷贝一份并压入栈，这样我们后续对于此矩阵的操作可以通过调用popMatrix来撤销影响。
 	Director::getInstance()->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 	Director::getInstance()->loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 	Director::getInstance()->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
@@ -81,11 +80,8 @@ void SceneLesson6::onDraw()
 	}
 	Director::getInstance()->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, modelViewMatrix);
 
-	//获得当前SceneLesson6的shader
-	auto glProgram = GLProgram::createWithFilenames("myVertextShaderCube.vert", "myFragmentShaderCube.frag");
-	//使用此shader
+	auto glProgram = getGLProgram();
 	glProgram->use();
-	//设置该shader的一些内置uniform,主要是MVP，即model-view-project矩阵
 	glProgram->setUniformsForBuiltins();
 
 	//set color to uniform
@@ -106,8 +102,8 @@ void SceneLesson6::onDraw()
 		{ { -1, -1, 0 }, { 0, 0 } },
 		// Back
 		{ { 1, 1, -2 }, { 1, 0 } },
-		{ { -1, -1, -2 }, { 1, 1 } },
-		{ { 1, -1, -2 }, { 0, 1 } },
+		{ { -1, -1, -2 }, { 0, 1 } },
+		{ { 1, -1, -2 }, { 1, 1 } },
 		{ { -1, 1, -2 }, { 0, 0 } },
 		// Left
 		{ { -1, -1, 0 }, { 1, 0 } },
@@ -158,7 +154,7 @@ void SceneLesson6::onDraw()
 		22, 23, 20
 	};
 
-	//创建索引缓冲区并绑定索引数据到缓冲区
+	//set indices
 	GLuint indexVBO;
 	glGenBuffers(1, &indexVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
@@ -173,7 +169,7 @@ void SceneLesson6::onDraw()
 		sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Position));
 
-	GLuint TexCoordLocation = glGetAttribLocation(glProgram->getProgram(), "a_coord");
+	GLuint TexCoordLocation = glGetAttribLocation(glProgram->getProgram(), "a_texCoord");
 	glEnableVertexAttribArray(TexCoordLocation);
 	glVertexAttribPointer(TexCoordLocation,
 		2,
@@ -186,18 +182,20 @@ void SceneLesson6::onDraw()
 	textureId = Director::getInstance()->getTextureCache()->addImage("1.png")->getName();
 	GL::bindTexture2D(textureId);
 
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (GLvoid*)0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);           // 使用完要解除VBO绑定
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);   // 使用完要解除IBO绑定
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
 	CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 36);
 
-	//如果出错了，可以使用这个函数来获取出错信息
 	CHECK_GL_ERROR_DEBUG();
 
-	//对于此矩阵的操作可以通过调用popMatrix来撤销影响。
 	Director::getInstance()->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 	Director::getInstance()->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
