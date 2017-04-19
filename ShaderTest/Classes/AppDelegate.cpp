@@ -6,6 +6,7 @@
 #include "SceneLesson4.h"
 #include "SceneLesson5.h"
 #include "SceneLesson6.h"
+#include "CubeTexture.h"
 
 USING_NS_CC;
 
@@ -87,6 +88,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//auto scene = SceneLesson4::createScene();
 	//auto scene = SceneLesson5::createScene();
 	auto scene = SceneLesson6::createScene();
+	//auto scene = CubeTexture::createScene();
 
     // run
     director->runWithScene(scene);

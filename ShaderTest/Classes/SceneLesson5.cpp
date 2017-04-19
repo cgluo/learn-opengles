@@ -73,7 +73,7 @@ void SceneLesson5::onDraw()
 	Mat4::createLookAt(Vec3(0, 0, 1), Vec3(0, 0, 0), Vec3(0, 1, 0), &modelViewMatrix);
 	modelViewMatrix.translate(0, 0, -5);
 
-	static float rotation = 0;
+	static float rotation = 60;
 	modelViewMatrix.rotate(Vec3(1, 1, 1), CC_DEGREES_TO_RADIANS(rotation));
 	rotation++;
 	if (rotation > 360) {
@@ -82,7 +82,7 @@ void SceneLesson5::onDraw()
 	Director::getInstance()->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, modelViewMatrix);
 
 	//获得当前SceneLesson5的shader
-	auto glProgram = GLProgram::createWithFilenames("myVertextShaderCube.vert", "myFragmentShaderCube.frag");
+	auto glProgram = getGLProgram();
 	//使用此shader
 	glProgram->use();
 	//设置该shader的一些内置uniform,主要是MVP，即model-view-project矩阵
@@ -139,9 +139,6 @@ void SceneLesson5::onDraw()
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 
 	GLubyte indices[] = {
-		// Front
-		0, 1, 2,
-		2, 3, 0,
 		// Back
 		4, 5, 6,
 		4, 5, 7,
@@ -156,7 +153,10 @@ void SceneLesson5::onDraw()
 		18, 19, 16,
 		// Bottom
 		20, 21, 22,
-		22, 23, 20
+		22, 23, 20,
+		// Front
+		0, 1, 2,
+		2, 3, 0
 	};
 
 	//创建索引缓冲区并绑定索引数据到缓冲区
@@ -182,6 +182,10 @@ void SceneLesson5::onDraw()
 		GL_FALSE,
 		sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Color));
+
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (GLvoid*)0);
 

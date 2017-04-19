@@ -95,42 +95,40 @@ void SceneLesson6::onDraw()
 
 	typedef struct {
 		float Position[3];
-		float Color[4];
 		float TexCoord[2];
 	} Vertex;
 
-#define TEX_COORD_MAX   1
 	Vertex data[] = {
 		// Front
-		{ { 1, -1, 0 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { 1, 1, 0 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { -1, 1, 0 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { -1, -1, 0 },{ 0, 0, 0, 1 },{ 0, 0 } },
+		{ { 1, -1, 0 }, { 1, 0 } },
+		{ { 1, 1, 0 }, { 1, 1 } },
+		{ { -1, 1, 0 }, { 0, 1 } },
+		{ { -1, -1, 0 }, { 0, 0 } },
 		// Back
-		{ { 1, 1, -2 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { -1, -1, -2 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { 1, -1, -2 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { -1, 1, -2 },{ 0, 0, 0, 1 },{ 0, 0 } },
+		{ { 1, 1, -2 }, { 1, 0 } },
+		{ { -1, -1, -2 }, { 1, 1 } },
+		{ { 1, -1, -2 }, { 0, 1 } },
+		{ { -1, 1, -2 }, { 0, 0 } },
 		// Left
-		{ { -1, -1, 0 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { -1, 1, 0 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { -1, 1, -2 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { -1, -1, -2 },{ 0, 0, 0, 1 },{ 0, 0 } },
+		{ { -1, -1, 0 }, { 1, 0 } },
+		{ { -1, 1, 0 }, { 1, 1 } },
+		{ { -1, 1, -2 }, { 0, 1 } },
+		{ { -1, -1, -2 }, { 0, 0 } },
 		// Right
-		{ { 1, -1, -2 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { 1, 1, -2 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { 1, 1, 0 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { 1, -1, 0 },{ 0, 0, 0, 1 },{ 0, 0 } },
+		{ { 1, -1, -2 }, { 1, 0 } },
+		{ { 1, 1, -2 }, { 1, 1 } },
+		{ { 1, 1, 0 }, { 0, 1 } },
+		{ { 1, -1, 0 }, { 0, 0 } },
 		// Top
-		{ { 1, 1, 0 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { 1, 1, -2 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { -1, 1, -2 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { -1, 1, 0 },{ 0, 0, 0, 1 },{ 0, 0 } },
+		{ { 1, 1, 0 }, { 1, 0 } },
+		{ { 1, 1, -2 }, { 1, 1 } },
+		{ { -1, 1, -2 }, { 0, 1 } },
+		{ { -1, 1, 0 }, { 0, 0 } },
 		// Bottom
-		{ { 1, -1, -2 },{ 1, 0, 0, 1 },{ TEX_COORD_MAX, 0 } },
-		{ { 1, -1, 0 },{ 0, 1, 0, 1 },{ TEX_COORD_MAX, TEX_COORD_MAX } },
-		{ { -1, -1, 0 },{ 0, 0, 1, 1 },{ 0, TEX_COORD_MAX } },
-		{ { -1, -1, -2 },{ 0, 0, 0, 1 },{ 0, 0 } }
+		{ { 1, -1, -2 }, { 1, 0 } },
+		{ { 1, -1, 0 }, { 1, 1 } },
+		{ { -1, -1, 0 }, { 0, 1 } },
+		{ { -1, -1, -2 }, { 0, 0 } }
 	};
 
 	//set data
@@ -175,15 +173,6 @@ void SceneLesson6::onDraw()
 		sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Position));
 
-	GLuint colorLocation = glGetAttribLocation(glProgram->getProgram(), "a_color");
-	glEnableVertexAttribArray(colorLocation);
-	glVertexAttribPointer(colorLocation,
-		4,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, Color));
-
 	GLuint TexCoordLocation = glGetAttribLocation(glProgram->getProgram(), "a_coord");
 	glEnableVertexAttribArray(TexCoordLocation);
 	glVertexAttribPointer(TexCoordLocation,
@@ -194,7 +183,7 @@ void SceneLesson6::onDraw()
 		(GLvoid*)offsetof(Vertex, TexCoord));
 
 	GLuint textureId;
-	textureId = Director::getInstance()->getTextureCache()->addImage("HelloWorld.png")->getName();
+	textureId = Director::getInstance()->getTextureCache()->addImage("1.png")->getName();
 	GL::bindTexture2D(textureId);
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (GLvoid*)0);
