@@ -57,5 +57,5 @@ xcuserdata/
 DerivedData/
 
 # custom
-proj.win32/
+proj.*/
 cocos2d/
