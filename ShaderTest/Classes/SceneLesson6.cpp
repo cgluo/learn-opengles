@@ -84,6 +84,10 @@ void SceneLesson6::onDraw()
 	glProgram->use();
 	glProgram->setUniformsForBuiltins();
 
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+
 	//set color to uniform
 	GLuint uColorLocation = glGetUniformLocation(glProgram->getProgram(), "u_color");
 	float uColor[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -138,7 +142,7 @@ void SceneLesson6::onDraw()
 		0, 1, 2,
 		2, 3, 0,
 		// Back
-		4, 5, 6,
+		4, 6, 5,
 		4, 5, 7,
 		// Left
 		8, 9, 10,
